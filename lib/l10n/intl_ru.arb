@@ -1,0 +1,12 @@
+{
+  "@@locale": "ru",
+  "yes": "Да",
+  "no": "Нет",
+  "close": "Закрыть",
+  "register_title": "Регистрация",
+  "login_action": "Войти",
+  "cancel": "Отмена",
+  "logout": "Выйти",
+  "continue_label": "Продолжить",
+  "email": "Электронная почта"
+}
