@@ -1,5 +1,7 @@
 {
   "@@locale": "ru",
+  "app_title_short": "TTA",
+  "app_title_full": "Test Task Application",
   "yes": "Да",
   "no": "Нет",
   "close": "Закрыть",
@@ -10,5 +12,8 @@
   "continue_label": "Продолжить",
   "email": "Электронная почта",
   "unknown_error": "Неизвестная ошибка",
-  "retry": "Повторить"
+  "retry": "Повторить",
+  "profile": "Профиль",
+  "products": "Продукты",
+  "users": "Пользователи"
 }
