@@ -1,5 +1,5 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
-//import 'package:animated_splash_screen/animated_splash_screen.dart'; //TODO: доделать splashScreen
+import 'package:animated_splash_screen/animated_splash_screen.dart'; //TODO: доделать splashScreen
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:test_task_application/core/routing/app_router.dart';
@@ -40,19 +40,33 @@ class _AppState extends State<App> {
     const colors = AppColors.light;
     final lightTheme = buildTheme(colors);
 
-    /*return MaterialApp(
-      theme: lightTheme,
-      home: AnimatedSplashScreen(
-        duration: 2000,
-        splash: Image.asset('assets/images/main_logo.png'),
-        nextScreen: MainScreen(),
-        splashTransition: SplashTransition.rotationTransition,
-        backgroundColor: colors.baseGreen ?? Colors.white,
-      ),
-    );*/
     return MaterialApp.router(
-      builder: (BuildContext context, Widget? child) =>
-          MediaQuery.withNoTextScaling(child: child ?? const SizedBox.shrink()),
+      builder: (BuildContext context, Widget? child) {
+        if (child == null) {
+          return const SizedBox.shrink();
+        }
+        return Stack(
+          children: [
+            MediaQuery.withNoTextScaling(child: child),
+            FutureBuilder(
+              future: Future.delayed(const Duration(seconds: 2)),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return AnimatedSplashScreen(
+                    splash: Image.asset('assets/images/main_logo.png'),
+                    splashTransition: SplashTransition.rotationTransition,
+                    backgroundColor: colors.baseGreen ?? Colors.white,
+
+                    nextScreen: const SizedBox.shrink(),
+                  );
+                }
+
+                return const SizedBox.shrink();
+              },
+            ),
+          ],
+        );
+      },
       theme: lightTheme,
       routerConfig: routerConfig,
       supportedLocales: const [Locale('ru', 'RU')],
