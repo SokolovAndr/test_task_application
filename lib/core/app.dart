@@ -1,5 +1,8 @@
-import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:animated_snack_bar/animated_snack_bar.dart';
+//import 'package:animated_splash_screen/animated_splash_screen.dart'; //TODO: доделать splashScreen
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:test_task_application/core/routing/app_router.dart';
 import 'package:test_task_application/core/utils/themes/app_bottom_sheet_theme.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
 import 'package:test_task_application/core/utils/themes/app_dialog_theme.dart';
@@ -10,17 +13,62 @@ import 'package:test_task_application/core/utils/themes/custom_app_bar_theme.dar
 import 'package:test_task_application/core/utils/themes/app_popup_menu_theme.dart';
 import 'package:test_task_application/core/utils/themes/app_text_fields_theme.dart';
 import 'package:test_task_application/core/utils/themes/font_family.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:test_task_application/generated/l10n.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  late RouterConfig<UrlState> routerConfig;
+  late AppRouter appRouter;
+  AnimatedSnackBar? snackBar;
+
+  @override
+  void initState() {
+    appRouter = AppRouter();
+    routerConfig = appRouter.config();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     const colors = AppColors.light;
-    final lightTheme = ThemeData(
+    final lightTheme = buildTheme(colors);
+
+    /*return MaterialApp(
+      theme: lightTheme,
+      home: AnimatedSplashScreen(
+        duration: 2000,
+        splash: Image.asset('assets/images/main_logo.png'),
+        nextScreen: MainScreen(),
+        splashTransition: SplashTransition.rotationTransition,
+        backgroundColor: colors.baseGreen ?? Colors.white,
+      ),
+    );*/
+    return MaterialApp.router(
+      builder: (BuildContext context, Widget? child) =>
+          MediaQuery.withNoTextScaling(child: child ?? const SizedBox.shrink()),
+      theme: lightTheme,
+      routerConfig: routerConfig,
+      supportedLocales: const [Locale('ru', 'RU')],
+      localizationsDelegates: const [
+        ...GlobalMaterialLocalizations.delegates,
+        GlobalWidgetsLocalizations.delegate,
+        S.delegate,
+      ],
+    );
+  }
+
+  ThemeData buildTheme(AppColors colors) {
+    return ThemeData(
       fontFamily: 'Roboto',
       useMaterial3: true,
-      extensions: const [colors],
+      extensions: [colors],
       colorScheme: ColorScheme.light(
         error: colors.danger500!,
         primary: colors.primary500!,
@@ -163,28 +211,6 @@ class App extends StatelessWidget {
           fontWeight: FontWeight.w400,
         ),
       ).def(),
-    );
-
-    return MaterialApp(
-      theme: lightTheme,
-      home: AnimatedSplashScreen(
-        duration: 2000,
-        splash: Image.asset('assets/images/main_logo.png'),
-        nextScreen: MainScreen(),
-        splashTransition: SplashTransition.rotationTransition,
-        backgroundColor: colors.baseGreen ?? Colors.white,
-      ),
-    );
-  }
-}
-
-class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(body: Center(child: Text('Hello World!'))),
     );
   }
 }

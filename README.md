@@ -27,3 +27,7 @@ flutter build apk
 ```dart
 <Корневая папка проекта>\build\app\outputs\flutter-apk\app-release.apk
 ```
+Сборка .ipa
+```dart
+flutter build ipa
+```
