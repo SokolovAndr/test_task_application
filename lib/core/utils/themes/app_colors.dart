@@ -324,7 +324,7 @@ class AppColors extends ThemeExtension<AppColors> {
   // the light theme
   static const light = AppColors(
     baseWhite: Colors.white,
-    baseGreen: Color(0xff026E56),
+    baseGreen: Color(0xff026548),
     base0: Colors.white,
     base10: Color(0xffF4F5F5),
     base100: Color(0xffE4E5E7),

@@ -1,4 +1,4 @@
-# test_task_application
+# TTA - Test Task Application (Приложение для тестового задания)
 
 Мобильное приложение для тестового задания.
 
