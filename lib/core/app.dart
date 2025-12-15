@@ -49,7 +49,7 @@ class _AppState extends State<App> {
           children: [
             MediaQuery.withNoTextScaling(child: child),
             FutureBuilder(
-              future: Future.delayed(const Duration(seconds: 2)),
+              future: Future.delayed(const Duration(seconds: 3)),
               builder: (context, snapshot) {
                 if (snapshot.connectionState != ConnectionState.done) {
                   return AnimatedSplashScreen(

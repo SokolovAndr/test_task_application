@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:test_task_application/core/data/data_sources/dto/request_error.dart';
 import 'package:test_task_application/core/data/data_sources/dto/resource_error.dart';
 import 'package:test_task_application/features/users/data/data_sources/remote/users_service.dart';
@@ -8,6 +9,7 @@ import 'package:test_task_application/features/users/domain/entities/address_ent
 import 'package:test_task_application/features/users/domain/entities/geolocation_entity.dart';
 import 'package:test_task_application/features/users/domain/entities/name_entity.dart';
 import 'package:test_task_application/features/users/domain/entities/user_entity.dart';
+import 'package:test_task_application/features/users/domain/entities/users_list_entity.dart';
 import 'package:test_task_application/generated/l10n.dart';
 
 class UsersRepository {
@@ -17,7 +19,7 @@ class UsersRepository {
 
   final UsersService usersService;
 
-  Future<List<UserEntity>> getUsers() async {
+  Future<UsersListEntity> getUsers({int page = 0}) async {
     try {
       final response = await usersService.getUsers();
       if (response.resourceError != null) {
@@ -25,7 +27,7 @@ class UsersRepository {
       }
       final body = response.body!;
 
-      return body
+      final users = body
           .map(
             (user) => UserEntity(
               address: user.address.map(
@@ -39,7 +41,7 @@ class UsersRepository {
                   city: address.city,
                   street: address.street,
                   number: address.number,
-                  zipcode: '',
+                  zipcode: address.zipcode,
                 ),
               ),
               id: user.id,
@@ -56,6 +58,7 @@ class UsersRepository {
             ),
           )
           .toList();
+      return UsersListEntity(users: users, totalCount: users.length);
     } on ResourceError catch (_) {
       rethrow;
     } catch (_, stack) {
