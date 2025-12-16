@@ -42,19 +42,7 @@ class BaseResponseConverter extends JsonConverter {
     }
     final jsonRes = await super.convertResponse(response);
 
-    final Map<String, dynamic> json = jsonRes.body;
-    final res = json;
-
-    // ignore: prefer_typing_uninitialized_variables
-    var toDecode;
-    if (res.keys.length == 1 &&
-        (res[res.keys.first] is List || res[res.keys.first] is Map)) {
-      toDecode = res[res.keys.first];
-    } else {
-      toDecode = res;
-    }
-
-    return jsonRes.copyWith<ResultType>(body: _decode<Item>(toDecode));
+    return jsonRes.copyWith<ResultType>(body: _decode<Item>(jsonRes.body));
   }
 
   @override
