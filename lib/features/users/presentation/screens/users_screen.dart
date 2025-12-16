@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:test_task_application/core/presentation/widgets/app_drawer.dart';
 import 'package:test_task_application/core/presentation/widgets/fullscreen_loading_widget.dart';
 import 'package:test_task_application/features/users/presentation/bloc/users_list_bloc.dart';
+import 'package:test_task_application/features/users/presentation/widgets/users_list_item_widget.dart';
 import 'package:test_task_application/generated/l10n.dart';
 
 @RoutePage()
@@ -28,13 +29,11 @@ class UsersScreen extends StatelessWidget {
               builder: (context, state) {
                 return state.maybeMap(
                   orElse: () => const SizedBox.shrink(),
-                  loaded: (model) => ListView.builder(
+                  loaded: (model) => ListView.separated(
+                    separatorBuilder: (context, index) => Divider(),
                     itemBuilder: (context, index) {
                       final user = model.users.users[index];
-                      return ListTile(
-                        title: Text(user.name.firstname),
-                        subtitle: Text(user.name.lastname),
-                      );
+                      return UsersListItemWidget(user: user);
                     },
                     itemCount: model.users.totalCount,
                   ),
