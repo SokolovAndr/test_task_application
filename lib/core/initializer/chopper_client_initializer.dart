@@ -1,5 +1,6 @@
 import 'package:chopper/chopper.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 import 'package:test_task_application/core/api/base_headers_interceptor.dart';
 import 'package:test_task_application/core/api/base_response_converter.dart';
@@ -11,19 +12,18 @@ import 'package:test_task_application/features/users/data/dto/user_dto.dart';
 
 class ChopperClientInitializer {
   static Future<ChopperClient> initChopperClient() async {
+    await dotenv.load();
     const converter = BaseResponseConverter({
       UserDto: UserDto.fromJson,
       NameDto: NameDto.fromJson,
       GeolocationDto: GeolocationDto.fromJson,
       AddressDto: AddressDto.fromJson,
     });
+    final baseUrl = dotenv.get('BASE_URL');
 
     final chopperClient = ChopperClient(
       client: PersistentConnection(),
-      //baseUrl: Uri.tryParse(AppEnv().baseUrl), //TODO: доделать или убрать
-      baseUrl: Uri.tryParse(
-        'https://fakestoreapi.com',
-      ),
+      baseUrl: Uri.tryParse(baseUrl),
       interceptors: [
         const BaseHeadersInterceptor(),
         HttpLoggingInterceptor(),
