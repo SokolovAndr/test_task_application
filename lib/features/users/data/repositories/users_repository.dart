@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:test_task_application/core/data/data_sources/dto/request_error.dart';
 import 'package:test_task_application/core/data/data_sources/dto/resource_error.dart';
 import 'package:test_task_application/features/users/data/data_sources/remote/users_service.dart';

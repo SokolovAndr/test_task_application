@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
 import 'package:test_task_application/core/utils/themes/font_family.dart';
-import 'package:test_task_application/generated/l10n.dart';
 
 class ErrorSnackbar extends StatelessWidget {
   const ErrorSnackbar({
