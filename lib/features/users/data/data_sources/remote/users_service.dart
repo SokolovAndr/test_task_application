@@ -3,7 +3,7 @@ import 'package:test_task_application/features/users/data/dto/user_dto.dart';
 
 part 'users_service.chopper.dart';
 
-@ChopperApi(baseUrl: 'https://fakestoreapi.com/')
+@ChopperApi()
 abstract class UsersService extends ChopperService {
   static UsersService create([ChopperClient? client]) => _$UsersService(client);
 

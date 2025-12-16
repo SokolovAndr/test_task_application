@@ -1,7 +1,13 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart'; //TODO: доделать splashScreen
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get_it/get_it.dart';
+import 'package:test_task_application/core/presentation/bloc/in_app_notification_bloc.dart';
+import 'package:test_task_application/core/presentation/widgets/error_snackbar.dart';
+import 'package:test_task_application/core/presentation/widgets/info_snackbar.dart';
+import 'package:test_task_application/core/presentation/widgets/retry_snackbar_action.dart';
 import 'package:test_task_application/core/routing/app_router.dart';
 import 'package:test_task_application/core/utils/themes/app_bottom_sheet_theme.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
@@ -40,41 +46,100 @@ class _AppState extends State<App> {
     const colors = AppColors.light;
     final lightTheme = buildTheme(colors);
 
-    return MaterialApp.router(
-      builder: (BuildContext context, Widget? child) {
-        if (child == null) {
-          return const SizedBox.shrink();
-        }
-        return Stack(
-          children: [
-            MediaQuery.withNoTextScaling(child: child),
-            FutureBuilder(
-              future: Future.delayed(const Duration(seconds: 2)),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return AnimatedSplashScreen(
-                    splash: Image.asset('assets/images/main_logo.png'),
-                    splashTransition: SplashTransition.rotationTransition,
-                    backgroundColor: colors.baseGreen ?? Colors.white,
+    return BlocProvider(
+      create: (context) => InAppNotificationBloc(GetIt.I.get()),
+      child: BlocListener<InAppNotificationBloc, InAppNotificationState>(
+        listener: (context, state) {
+          final error = state.error;
+          final info = state.info;
+          final routerContext = appRouter.navigatorKey.currentContext;
+          WidgetBuilder? contentBuilder;
 
-                    nextScreen: const SizedBox.shrink(),
-                  );
-                }
-
-                return const SizedBox.shrink();
+          var duration = const Duration(seconds: 3);
+          if (error != null) {
+            duration = const Duration(days: 100);
+            contentBuilder = (context) => ErrorSnackbar(
+              theme: lightTheme,
+              text: error.error,
+              closeAction: () {
+                try {
+                  snackBar?.remove();
+                } catch (_) {}
               },
-            ),
+              action: RetrySnackbarAction(
+                theme: lightTheme,
+                retryAction: () {
+                  try {
+                    snackBar?.remove();
+                  } catch (_) {
+                  } finally {
+                    error.retryAction?.call();
+                  }
+                },
+              ),
+            );
+          } else if (info != null) {
+            contentBuilder = (context) =>
+                InfoSnackbar(theme: lightTheme, text: info.notification);
+          } else {
+            if ((snackBar?.duration.inSeconds ?? 10000) > 100) {
+              snackBar?.remove();
+              AnimatedSnackBar.removeAll();
+            }
+          }
+
+          if (contentBuilder != null) {
+            snackBar = AnimatedSnackBar(
+              duration: duration,
+              mobileSnackBarPosition: MobileSnackBarPosition.bottom,
+              mobilePositionSettings: MobilePositionSettings(
+                bottomOnAppearance: MediaQuery.of(context).padding.bottom + 16,
+                left: 12,
+                right: 12,
+              ),
+              snackBarStrategy: RemoveSnackBarStrategy(),
+              builder: contentBuilder,
+            );
+            snackBar?.show(routerContext!);
+          }
+        },
+        child: MaterialApp.router(
+          builder: (BuildContext context, Widget? child) {
+            if (child == null) {
+              return const SizedBox.shrink();
+            }
+            return Stack(
+              children: [
+                MediaQuery.withNoTextScaling(child: child),
+                FutureBuilder(
+                  future: Future.delayed(const Duration(seconds: 3)),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return AnimatedSplashScreen(
+                        splash: Image.asset('assets/images/main_logo.png'),
+                        splashTransition: SplashTransition.rotationTransition,
+                        backgroundColor: colors.baseGreen ?? Colors.white,
+
+                        nextScreen: const SizedBox.shrink(),
+                      );
+                    }
+
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ],
+            );
+          },
+          theme: lightTheme,
+          routerConfig: routerConfig,
+          supportedLocales: const [Locale('ru', 'RU')],
+          localizationsDelegates: const [
+            ...GlobalMaterialLocalizations.delegates,
+            GlobalWidgetsLocalizations.delegate,
+            S.delegate,
           ],
-        );
-      },
-      theme: lightTheme,
-      routerConfig: routerConfig,
-      supportedLocales: const [Locale('ru', 'RU')],
-      localizationsDelegates: const [
-        ...GlobalMaterialLocalizations.delegates,
-        GlobalWidgetsLocalizations.delegate,
-        S.delegate,
-      ],
+        ),
+      ),
     );
   }
 
