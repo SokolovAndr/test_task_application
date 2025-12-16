@@ -22,6 +22,7 @@ class UsersScreen extends StatelessWidget {
             UsersListBloc(GetIt.I.get(), GetIt.I.get())
               ..add(const UsersListEvent.load()),
         child: Stack(
+          fit: StackFit.expand,
           children: [
             BlocBuilder<UsersListBloc, UsersListState>(
               buildWhen: (previous, current) =>
