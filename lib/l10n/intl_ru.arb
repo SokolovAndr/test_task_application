@@ -25,5 +25,13 @@
   "title": "Название",
   "category": "Категория",
   "description": "Описание",
-  "validation_not_empty": "Поле не должно быть пустым"
+  "validation_not_empty": "Поле не должно быть пустым",
+  "stock": "Остаток {count}",
+  "@stock": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

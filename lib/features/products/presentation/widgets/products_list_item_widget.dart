@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating/flutter_rating.dart';
 import 'package:test_task_application/core/presentation/widgets/titled_text_widget.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
 import 'package:test_task_application/features/products/domain/entities/product_entity.dart';
@@ -37,7 +36,10 @@ class ProductsListItemWidget extends StatelessWidget {
             label: product.description,
           ),
           SizedBox(height: 8),
-          ProductItemRatingWidget(rate: product.rating.rate),
+          ProductItemRatingCountWidget(
+            rate: product.rating.rate,
+            count: product.rating.count,
+          ),
         ],
       ),
       onTap: () {
