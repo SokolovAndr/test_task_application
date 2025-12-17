@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:test_task_application/core/presentation/widgets/titled_text_widget.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
-import 'package:test_task_application/features/users/domain/entities/user_entity.dart';
+import 'package:test_task_application/features/products/domain/entities/product_entity.dart';
 import 'package:test_task_application/generated/l10n.dart';
 
-class UsersListItemWidget extends StatelessWidget {
-  const UsersListItemWidget({super.key, required this.user});
+class ProductsListItemWidget extends StatelessWidget {
+  const ProductsListItemWidget({super.key, required this.product});
 
-  final UserEntity user;
+  final ProductEntity product;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class UsersListItemWidget extends StatelessWidget {
         radius: 30,
         backgroundColor: theme.extension<AppColors>()!.primary40,
         child: Text(
-          user.initials,
+          product.initials,
           style: TextStyle(color: theme.extension<AppColors>()!.baseGreen),
         ),
       ),
@@ -26,17 +26,14 @@ class UsersListItemWidget extends StatelessWidget {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TitledTextWidget(
-            title: S.current.firstname,
-            label: user.name.firstname,
-          ),
+          TitledTextWidget(title: S.current.title, label: product.title),
+          SizedBox(height: 8),
+          TitledTextWidget(title: S.current.category, label: product.category),
           SizedBox(height: 8),
           TitledTextWidget(
-            title: S.current.lastname,
-            label: user.name.lastname,
+            title: S.current.description,
+            label: product.description,
           ),
-          SizedBox(height: 8),
-          TitledTextWidget(title: S.current.phone, label: user.phone),
         ],
       ),
       onTap: () {

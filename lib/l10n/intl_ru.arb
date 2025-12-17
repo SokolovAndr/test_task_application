@@ -19,5 +19,8 @@
   "retry": "Повторить",
   "firstname": "Имя",
   "lastname": "Фамилия",
-  "phone": "Телефон"
+  "phone": "Телефон",
+  "title": "Название",
+  "category": "Категория",
+  "description": "Описание"
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
 import 'package:test_task_application/core/utils/themes/font_family.dart';
 
-class UsersListItemTitledComponentWidget extends StatelessWidget {
-  const UsersListItemTitledComponentWidget({
+class TitledTextWidget extends StatelessWidget {
+  const TitledTextWidget({
     super.key,
     required this.title,
     required this.label,
@@ -31,6 +31,8 @@ class UsersListItemTitledComponentWidget extends StatelessWidget {
         Container(
           padding: const EdgeInsets.only(right: 16),
           child: Text(
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
             label ?? '',
             style: const TextStyle(
               fontSize: 16,
