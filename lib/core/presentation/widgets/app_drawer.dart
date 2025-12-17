@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:test_task_application/core/routing/app_router.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
+import 'package:test_task_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:test_task_application/generated/l10n.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -15,51 +18,58 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: theme.extension<AppColors>()!.baseGreen,
-            ),
-            child: ListTile(
-              title: Text(
-                S.current.app_title_short,
-                style: TextStyle(
-                  color: theme.extension<AppColors>()!.baseWhite,
-                  fontSize: 24,
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        return state.maybeMap(
+          orElse: SizedBox.shrink,
+          finished: (model) => Drawer(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: <Widget>[
+                DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: theme.extension<AppColors>()!.baseGreen,
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      S.current.app_title_short,
+                      style: TextStyle(
+                        color: theme.extension<AppColors>()!.baseWhite,
+                        fontSize: 24,
+                      ),
+                    ),
+                    subtitle: Text(
+                      S.current.app_title_full,
+                      style: TextStyle(
+                        color: theme.extension<AppColors>()!.baseWhite,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              subtitle: Text(
-                S.current.app_title_full,
-                style: TextStyle(
-                  color: theme.extension<AppColors>()!.baseWhite,
-                  fontSize: 14,
+                _buildMenuItem(
+                  context: context,
+                  route: ProfileRoute(id: model.id),
+                  icon: Icons.person,
+                  label: S.current.profile,
                 ),
-              ),
+                _buildMenuItem(
+                  context: context,
+                  route: const ProductsRoute(),
+                  icon: Icons.list_alt,
+                  label: S.current.products,
+                ),
+                _buildMenuItem(
+                  context: context,
+                  route: const UsersRoute(),
+                  icon: Icons.group,
+                  label: S.current.users,
+                ),
+              ],
             ),
           ),
-          _buildMenuItem(
-            context: context,
-            route: const ProfileRoute(),
-            icon: Icons.person,
-            label: S.current.profile,
-          ),
-          _buildMenuItem(
-            context: context,
-            route: const ProductsRoute(),
-            icon: Icons.list_alt,
-            label: S.current.products,
-          ),
-          _buildMenuItem(
-            context: context,
-            route: const UsersRoute(),
-            icon: Icons.group,
-            label: S.current.users,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 

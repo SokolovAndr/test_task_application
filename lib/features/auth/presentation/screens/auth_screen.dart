@@ -22,120 +22,117 @@ class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return BlocProvider(
-      create: (context) => AuthBloc(GetIt.I.get(), GetIt.I.get()),
-      child: AuthModelFormBuilder(
-        builder:
-            (
-              BuildContext context,
-              AuthModelForm formModel,
-              Widget? child,
-            ) => Stack(
-              fit: StackFit.expand,
-              children: [
-                Scaffold(
-                  body: ReactiveAuthModelFormConsumer(
-                    builder:
-                        (
-                          BuildContext context,
-                          AuthModelForm formModel,
-                          Widget? child,
-                        ) => BlocConsumer<AuthBloc, AuthState>(
-                          listener: (context, state) {
-                            state.maybeWhen(
-                              orElse: () {},
-                              finished: () {
-                                context.router.replace(const ProfileRoute());
-                              },
-                            );
-                          },
-                          builder: (context, state) {
-                            return Content(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(height: 150),
-                                  CircleAvatar(
-                                    radius: 30,
-                                    backgroundColor: theme
-                                        .extension<AppColors>()!
-                                        .baseGreen,
-                                    child: Text(
-                                      S.current.app_title_short,
-                                      style: TextStyle(
-                                        color: theme
-                                            .extension<AppColors>()!
-                                            .baseWhite,
-                                      ),
+    return AuthModelFormBuilder(
+      builder:
+          (
+            BuildContext context,
+            AuthModelForm formModel,
+            Widget? child,
+          ) => Stack(
+            fit: StackFit.expand,
+            children: [
+              Scaffold(
+                body: ReactiveAuthModelFormConsumer(
+                  builder:
+                      (
+                        BuildContext context,
+                        AuthModelForm formModel,
+                        Widget? child,
+                      ) => BlocConsumer<AuthBloc, AuthState>(
+                        listener: (context, state) {
+                          state.maybeWhen(
+                            orElse: () {},
+                            finished: (id) {
+                              context.router.replace(ProfileRoute(id: id));
+                            },
+                          );
+                        },
+                        builder: (context, state) {
+                          return Content(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 150),
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: theme
+                                      .extension<AppColors>()!
+                                      .baseGreen,
+                                  child: Text(
+                                    S.current.app_title_short,
+                                    style: TextStyle(
+                                      color: theme
+                                          .extension<AppColors>()!
+                                          .baseWhite,
                                     ),
                                   ),
-                                  const SizedBox(height: 10),
-                                  Text(
-                                    S.current.app_title_full,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  S.current.app_title_full,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  const SizedBox(height: 25),
-                                  TitledFieldBlock(
-                                    title: S.current.login,
-                                    child: ReactiveTextField(
-                                      decoration: DefaultInputDecoration.def,
-                                      formControl: formModel.usernameControl,
-                                    ),
+                                ),
+                                const SizedBox(height: 25),
+                                TitledFieldBlock(
+                                  title: S.current.login,
+                                  child: ReactiveTextField(
+                                    decoration: DefaultInputDecoration.def,
+                                    formControl: formModel.usernameControl,
                                   ),
-                                  const SizedBox(height: 10),
-                                  TitledFieldBlock(
-                                    title: S.current.password,
-                                    child: ReactiveTextField(
-                                      obscureText: true,
-
-                                      formControl: formModel.passwordControl,
-                                      decoration: DefaultInputDecoration.def,
-                                    ),
+                                ),
+                                const SizedBox(height: 10),
+                                TitledFieldBlock(
+                                  title: S.current.password,
+                                  child: ReactiveTextField(
+                                    obscureText: true,
+    
+                                    formControl: formModel.passwordControl,
+                                    decoration: DefaultInputDecoration.def,
                                   ),
-                                  const Spacer(),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          formModel.currentForm.valid
-                                          ? AppColors.light.baseGreen
-                                          : AppColors.light.success100,
-                                    ),
-                                    onPressed: () =>
-                                        formModel.validateAndSubmit(
-                                          (model) =>
-                                              context.read<AuthBloc>().add(
-                                                AuthEvent.login(
-                                                  auth: _modelToEntity(model),
-                                                ),
+                                ),
+                                const Spacer(),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        formModel.currentForm.valid
+                                        ? AppColors.light.baseGreen
+                                        : AppColors.light.success100,
+                                  ),
+                                  onPressed: () =>
+                                      formModel.validateAndSubmit(
+                                        (model) =>
+                                            context.read<AuthBloc>().add(
+                                              AuthEvent.login(
+                                                auth: _modelToEntity(model),
                                               ),
-                                        ),
-
-                                    child: Text(S.current.login_action),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                  ),
-                ),
-                BlocBuilder<AuthBloc, AuthState>(
-                  builder: (context, state) {
-                    return state.maybeWhen(
-                      orElse: () => const SizedBox.shrink(),
-                      loading: () => const Positioned.fill(
-                        child: FullScreenLoadingWidget(),
+                                            ),
+                                      ),
+    
+                                  child: Text(S.current.login_action),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
                 ),
-              ],
-            ),
-      ),
+              ),
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    orElse: () => const SizedBox.shrink(),
+                    loading: () => const Positioned.fill(
+                      child: FullScreenLoadingWidget(),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
     );
   }
 

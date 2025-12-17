@@ -21,6 +21,7 @@ import 'package:test_task_application/core/utils/themes/app_popup_menu_theme.dar
 import 'package:test_task_application/core/utils/themes/app_text_fields_theme.dart';
 import 'package:test_task_application/core/utils/themes/font_family.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:test_task_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:test_task_application/generated/l10n.dart';
 
 class App extends StatefulWidget {
@@ -51,8 +52,14 @@ class _AppState extends State<App> {
       validationMessages: {
         ValidationMessage.required: (error) => S.current.validation_not_empty,
       },
-      child: BlocProvider(
-        create: (context) => InAppNotificationBloc(GetIt.I.get()),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => InAppNotificationBloc(GetIt.I.get()),
+          ),
+          BlocProvider(create: (context) => AuthBloc(GetIt.I.get(), GetIt.I.get()),
+          ),
+        ],
         child: BlocListener<InAppNotificationBloc, InAppNotificationState>(
           listener: (context, state) {
             final error = state.error;

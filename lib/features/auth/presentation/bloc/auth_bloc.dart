@@ -21,7 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await authRepository.login(
           authEntity: event.auth,
         );
-        emit(const _Finished());
+        emit(const _Finished(id: 10));
       } on ResourceError catch (e) {
         emit(s);
         await inAppNotificationRepository.addError(
