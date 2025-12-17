@@ -40,6 +40,14 @@ class ProductsListItemWidget extends StatelessWidget {
             rate: product.rating.rate,
             count: product.rating.count,
           ),
+          SizedBox(height: 8),
+          Text(
+            S.current.price_usd(product.price),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.extension<AppColors>()?.base800,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
       onTap: () {

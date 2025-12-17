@@ -33,5 +33,13 @@
         "type": "int"
       }
     }
+  },
+  "price_usd": "{price} USD",
+  "@price_usd": {
+    "placeholders": {
+      "price": {
+        "type": "double"
+      }
+    }
   }
 }
