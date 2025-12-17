@@ -16,10 +16,9 @@ class UsersListItemWidget extends StatelessWidget {
       leading: CircleAvatar(
         radius: 30,
         backgroundColor: theme.extension<AppColors>()!.primary40,
-        child: Icon(
-          Icons.person_2_outlined,
-          color: theme.extension<AppColors>()!.baseGreen,
-          size: 28,
+        child: Text(
+          user.initials,
+          style: TextStyle(color: theme.extension<AppColors>()!.baseGreen),
         ),
       ),
       contentPadding: EdgeInsets.all(8),
@@ -37,10 +36,7 @@ class UsersListItemWidget extends StatelessWidget {
             label: user.name.lastname,
           ),
           SizedBox(height: 8),
-          TitledTextWidget(
-            title: S.current.phone,
-            label: user.phone,
-          ),
+          TitledTextWidget(title: S.current.phone, label: user.phone),
         ],
       ),
       onTap: () {

@@ -13,25 +13,14 @@ class ProductsListItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return ListTile(
-      /*leading: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: CachedNetworkImage(
-          imageUrl: product.image,
-          height: 50,
-          width: 50,
-          fit: BoxFit.cover,
-          maxHeightDiskCache: 50,
-          placeholder: (context, url) =>
-              const Center(child: CircularProgressIndicator()),
-          errorWidget: (context, url, error) => Container(
-            color: theme.extension<AppColors>()!.base970,
-            child: Icon(
-              Icons.shopping_cart,
-              color: theme.extension<AppColors>()!.baseGreen,
-            ),
-          ),
+      leading: CircleAvatar(
+        radius: 30,
+        backgroundColor: theme.extension<AppColors>()!.primary40,
+        child: Text(
+          product.initials,
+          style: TextStyle(color: theme.extension<AppColors>()!.baseGreen),
         ),
-      ),*/
+      ),
       contentPadding: EdgeInsets.all(8),
       tileColor: theme.extension<AppColors>()!.baseWhite,
       title: Column(
