@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating/flutter_rating.dart';
 import 'package:test_task_application/core/presentation/widgets/titled_text_widget.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
 import 'package:test_task_application/features/products/domain/entities/product_entity.dart';
+import 'package:test_task_application/features/products/presentation/widgets/product_item_rating_widget.dart';
 import 'package:test_task_application/generated/l10n.dart';
 
 class ProductsListItemWidget extends StatelessWidget {
@@ -34,6 +36,8 @@ class ProductsListItemWidget extends StatelessWidget {
             title: S.current.description,
             label: product.description,
           ),
+          SizedBox(height: 8),
+          ProductItemRatingWidget(rate: product.rating.rate),
         ],
       ),
       onTap: () {
