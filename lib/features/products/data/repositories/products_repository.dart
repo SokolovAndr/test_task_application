@@ -14,7 +14,7 @@ class ProductsRepository {
 
   final ProductsService productsService;
 
-  Future<ProductsListEntity> getUsers({int page = 0}) async {
+  Future<ProductsListEntity> getProducts({int page = 0}) async {
     try {
       final response = await productsService.getProducts();
       if (response.resourceError != null) {
@@ -32,12 +32,16 @@ class ProductsRepository {
               category: product.category,
               image: product.image,
               rating: product.rating.map(
-                (rating) => RatingEntity(rate: rating.rate, count: rating.count),
+                (rating) =>
+                    RatingEntity(rate: rating.rate, count: rating.count),
               ),
             ),
           )
           .toList();
-      return ProductsListEntity(users: products, totalCount: products.length);
+      return ProductsListEntity(
+        products: products,
+        totalCount: products.length,
+      );
     } on ResourceError catch (_) {
       rethrow;
     } catch (_, stack) {
