@@ -5,18 +5,18 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: c209688d9f5a5f26b2fb47a188131a6fb9e876ae9e47af3737c0b4f58a93470d
+      sha256: dd3d2ad434b9510001d089e8de7556d50c834481b9abc2891a0184a8493a19dc
       url: "https://pub.dev"
     source: hosted
-    version: "91.0.0"
+    version: "89.0.0"
   analyzer:
     dependency: transitive
     description:
       name: analyzer
-      sha256: f51c8499b35f9b26820cfe914828a6a98a94efd5cc78b37bb7d03debae3a1d08
+      sha256: c22b6e7726d1f9e5db58c7251606076a71ca0dbcf76116675edfadbec0c9e875
       url: "https://pub.dev"
     source: hosted
-    version: "8.4.1"
+    version: "8.2.0"
   animated_snack_bar:
     dependency: "direct main"
     description:
@@ -202,7 +202,7 @@ packages:
     source: hosted
     version: "4.11.0"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       sha256: "2f5709ae4d3d59dd8f7cd309b4e023046b57d8a6c82130785d2b0e5868084e76"
@@ -668,10 +668,26 @@ packages:
     dependency: "direct main"
     description:
       name: reactive_forms_annotations
-      sha256: da53d15516d02fef91c5bd4761118a814fbecb7e0ee3a6440f81fb5f4983e3d3
+      sha256: df98a859703177b5ee7b42e65ffcb053e25b84ee899fa1fd6c296d3b4023d1c5
       url: "https://pub.dev"
     source: hosted
-    version: "8.0.1"
+    version: "8.1.0-beta2"
+  reactive_forms_generator:
+    dependency: "direct main"
+    description:
+      name: reactive_forms_generator
+      sha256: "6b6d0325967733339431a39c07d3e9c67517bdfa0648c69ce6193587a476d09e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "8.1.0-beta2"
+  recase:
+    dependency: transitive
+    description:
+      name: recase
+      sha256: e4eb4ec2dcdee52dcf99cb4ceabaffc631d7424ee55e56f280bc039737f89213
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.0"
   shelf:
     dependency: transitive
     description:

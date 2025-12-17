@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 import 'package:test_task_application/core/presentation/bloc/in_app_notification_bloc.dart';
 import 'package:test_task_application/core/presentation/widgets/error_snackbar.dart';
 import 'package:test_task_application/core/presentation/widgets/info_snackbar.dart';
@@ -46,98 +47,104 @@ class _AppState extends State<App> {
     const colors = AppColors.light;
     final lightTheme = buildTheme(colors);
 
-    return BlocProvider(
-      create: (context) => InAppNotificationBloc(GetIt.I.get()),
-      child: BlocListener<InAppNotificationBloc, InAppNotificationState>(
-        listener: (context, state) {
-          final error = state.error;
-          final info = state.info;
-          final routerContext = appRouter.navigatorKey.currentContext;
-          WidgetBuilder? contentBuilder;
+    return ReactiveFormConfig(
+      validationMessages: {
+        ValidationMessage.required: (error) => S.current.validation_not_empty,
+      },
+      child: BlocProvider(
+        create: (context) => InAppNotificationBloc(GetIt.I.get()),
+        child: BlocListener<InAppNotificationBloc, InAppNotificationState>(
+          listener: (context, state) {
+            final error = state.error;
+            final info = state.info;
+            final routerContext = appRouter.navigatorKey.currentContext;
+            WidgetBuilder? contentBuilder;
 
-          var duration = const Duration(seconds: 3);
-          if (error != null) {
-            duration = const Duration(days: 100);
-            contentBuilder = (context) => ErrorSnackbar(
-              theme: lightTheme,
-              text: error.error,
-              closeAction: () {
-                try {
-                  snackBar?.remove();
-                } catch (_) {}
-              },
-              action: RetrySnackbarAction(
+            var duration = const Duration(seconds: 3);
+            if (error != null) {
+              duration = const Duration(days: 100);
+              contentBuilder = (context) => ErrorSnackbar(
                 theme: lightTheme,
-                retryAction: () {
+                text: error.error,
+                closeAction: () {
                   try {
                     snackBar?.remove();
-                  } catch (_) {
-                  } finally {
-                    error.retryAction?.call();
-                  }
+                  } catch (_) {}
                 },
-              ),
-            );
-          } else if (info != null) {
-            contentBuilder = (context) =>
-                InfoSnackbar(theme: lightTheme, text: info.notification);
-          } else {
-            if ((snackBar?.duration.inSeconds ?? 10000) > 100) {
-              snackBar?.remove();
-              AnimatedSnackBar.removeAll();
-            }
-          }
-
-          if (contentBuilder != null) {
-            snackBar = AnimatedSnackBar(
-              duration: duration,
-              mobileSnackBarPosition: MobileSnackBarPosition.bottom,
-              mobilePositionSettings: MobilePositionSettings(
-                bottomOnAppearance: MediaQuery.of(context).padding.bottom + 16,
-                left: 12,
-                right: 12,
-              ),
-              snackBarStrategy: RemoveSnackBarStrategy(),
-              builder: contentBuilder,
-            );
-            snackBar?.show(routerContext!);
-          }
-        },
-        child: MaterialApp.router(
-          builder: (BuildContext context, Widget? child) {
-            if (child == null) {
-              return const SizedBox.shrink();
-            }
-            return Stack(
-              children: [
-                MediaQuery.withNoTextScaling(child: child),
-                FutureBuilder(
-                  future: Future.delayed(const Duration(seconds: 3)),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState != ConnectionState.done) {
-                      return AnimatedSplashScreen(
-                        splash: Image.asset('assets/images/main_logo.png'),
-                        splashTransition: SplashTransition.rotationTransition,
-                        backgroundColor: colors.baseGreen ?? Colors.white,
-
-                        nextScreen: const SizedBox.shrink(),
-                      );
+                action: RetrySnackbarAction(
+                  theme: lightTheme,
+                  retryAction: () {
+                    try {
+                      snackBar?.remove();
+                    } catch (_) {
+                    } finally {
+                      error.retryAction?.call();
                     }
-
-                    return const SizedBox.shrink();
                   },
                 ),
-              ],
-            );
+              );
+            } else if (info != null) {
+              contentBuilder = (context) =>
+                  InfoSnackbar(theme: lightTheme, text: info.notification);
+            } else {
+              if ((snackBar?.duration.inSeconds ?? 10000) > 100) {
+                snackBar?.remove();
+                AnimatedSnackBar.removeAll();
+              }
+            }
+
+            if (contentBuilder != null) {
+              snackBar = AnimatedSnackBar(
+                duration: duration,
+                mobileSnackBarPosition: MobileSnackBarPosition.bottom,
+                mobilePositionSettings: MobilePositionSettings(
+                  bottomOnAppearance:
+                      MediaQuery.of(context).padding.bottom + 16,
+                  left: 12,
+                  right: 12,
+                ),
+                snackBarStrategy: RemoveSnackBarStrategy(),
+                builder: contentBuilder,
+              );
+              snackBar?.show(routerContext!);
+            }
           },
-          theme: lightTheme,
-          routerConfig: routerConfig,
-          supportedLocales: const [Locale('ru', 'RU')],
-          localizationsDelegates: const [
-            ...GlobalMaterialLocalizations.delegates,
-            GlobalWidgetsLocalizations.delegate,
-            S.delegate,
-          ],
+          child: MaterialApp.router(
+            builder: (BuildContext context, Widget? child) {
+              if (child == null) {
+                return const SizedBox.shrink();
+              }
+              return Stack(
+                children: [
+                  MediaQuery.withNoTextScaling(child: child),
+                  FutureBuilder(
+                    future: Future.delayed(const Duration(seconds: 3)),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState != ConnectionState.done) {
+                        return AnimatedSplashScreen(
+                          splash: Image.asset('assets/images/main_logo.png'),
+                          splashTransition: SplashTransition.rotationTransition,
+                          backgroundColor: colors.baseGreen ?? Colors.white,
+
+                          nextScreen: const SizedBox.shrink(),
+                        );
+                      }
+
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ],
+              );
+            },
+            theme: lightTheme,
+            routerConfig: routerConfig,
+            supportedLocales: const [Locale('ru', 'RU')],
+            localizationsDelegates: const [
+              ...GlobalMaterialLocalizations.delegates,
+              GlobalWidgetsLocalizations.delegate,
+              S.delegate,
+            ],
+          ),
         ),
       ),
     );
@@ -192,7 +199,7 @@ class _AppState extends State<App> {
       ),
       dialogTheme: AppDialogThemeData(colors),
       elevatedButtonTheme: AppElevatedButtonTheme(colors),
-      textButtonTheme: DppTextButtonTheme(colors),
+      textButtonTheme: AppTextButtonTheme(colors),
       bottomSheetTheme: AppBottomSheetTheme(colors),
       splashFactory: NoSplash.splashFactory,
       highlightColor: Colors.transparent,
