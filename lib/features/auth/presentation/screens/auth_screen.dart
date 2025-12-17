@@ -19,23 +19,21 @@ import 'package:test_task_application/generated/l10n.dart';
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
 
-  // context.router.replace(const ProfileRoute());
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return AuthModelFormBuilder(
-      builder: (BuildContext context, AuthModelForm formModel, Widget? child) =>
-          BlocProvider(
-            create: (context) => AuthBloc(GetIt.I.get(), GetIt.I.get()),
-            child: Stack(
+    return BlocProvider(
+      create: (context) => AuthBloc(GetIt.I.get(), GetIt.I.get()),
+      child: AuthModelFormBuilder(
+        builder:
+            (
+              BuildContext context,
+              AuthModelForm formModel,
+              Widget? child,
+            ) => Stack(
               fit: StackFit.expand,
               children: [
                 Scaffold(
-                  appBar: AppBar(
-                    title: Text(S.current.app_title_short),
-                    centerTitle: true,
-                  ),
                   body: ReactiveAuthModelFormConsumer(
                     builder:
                         (
@@ -51,18 +49,13 @@ class AuthScreen extends StatelessWidget {
                               },
                             );
                           },
-                          buildWhen: (previous, current) => current.maybeWhen(
-                            orElse: () => false,
-                            loaded: (login) => true,
-                          ),
-
                           builder: (context, state) {
                             return Content(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SizedBox(height: 100),
+                                  SizedBox(height: 150),
                                   CircleAvatar(
                                     radius: 30,
                                     backgroundColor: theme
@@ -113,10 +106,12 @@ class AuthScreen extends StatelessWidget {
                                     ),
                                     onPressed: () =>
                                         formModel.validateAndSubmit(
-                                          (model) => context
-                                              .read<AuthBloc>()
-                                              .add(AuthEvent.login(auth: _modelToEntity(model),
-                                                )),
+                                          (model) =>
+                                              context.read<AuthBloc>().add(
+                                                AuthEvent.login(
+                                                  auth: _modelToEntity(model),
+                                                ),
+                                              ),
                                         ),
 
                                     child: Text(S.current.login_action),
@@ -140,7 +135,7 @@ class AuthScreen extends StatelessWidget {
                 ),
               ],
             ),
-          ),
+      ),
     );
   }
 
