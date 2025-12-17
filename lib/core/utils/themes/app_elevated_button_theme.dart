@@ -7,7 +7,7 @@ class AppElevatedButtonTheme extends ElevatedButtonThemeData {
     : super(
         style: ElevatedButton.styleFrom(
           foregroundColor: colors.base0,
-          backgroundColor: colors.primary500,
+          backgroundColor: colors.baseGreen,
           elevation: 0,
           disabledForegroundColor: colors.base0,
           disabledBackgroundColor: colors.primary200,
@@ -26,8 +26,8 @@ class AppElevatedButtonTheme extends ElevatedButtonThemeData {
       );
 }
 
-class DppTextButtonTheme extends TextButtonThemeData {
-  DppTextButtonTheme(AppColors colors)
+class AppTextButtonTheme extends TextButtonThemeData {
+  AppTextButtonTheme(AppColors colors)
     : super(
         style:
             TextButton.styleFrom(
