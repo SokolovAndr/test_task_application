@@ -27,7 +27,17 @@ flutter build apk
 ```dart
 <Корневая папка проекта>\build\app\outputs\flutter-apk\app-release.apk
 ```
-Сборка .ipa
+Собрать .ipa
 ```dart
 flutter build ipa
+```
+
+## Вход в приложени
+На момент написания приложения войти в него можно было по логину (username) и паролю (password) одного из пользователей, получаемых по запросу https://fakestoreapi.com/users, например:
+
+```json
+{
+  "username": "johnd",
+  "password": "m38rmF$"
+}
 ```
