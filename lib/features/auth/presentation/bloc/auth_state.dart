@@ -1,11 +1,10 @@
-/*part of 'login_bloc.dart';
+part of 'auth_bloc.dart';
 
 @freezed
-class LoginState with _$LoginState {
-  const factory LoginState.initial() = _Initial;
-  const factory LoginState.loaded(String? username) = _Loaded;
-  const factory LoginState.loading() = _Loading;
-  const factory LoginState.finished() = _Finished;
-  const factory LoginState.error(String error) = _Error;
+sealed class AuthState with _$AuthState {
+  const factory AuthState.initial() = _Initial;
+  const factory AuthState.loaded(String? username) = _Loaded;
+  const factory AuthState.loading() = _Loading;
+  const factory AuthState.finished() = _Finished;
+  const factory AuthState.error(String error) = _Error;
 }
-*/

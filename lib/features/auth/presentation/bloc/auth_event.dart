@@ -1,10 +1,8 @@
-/*part of 'login_bloc.dart';
+part of 'auth_bloc.dart';
 
 @freezed
-class LoginEvent with _$LoginEvent {
-  const factory LoginEvent.login({
-    required String username,
-    required String password,
+sealed class AuthEvent with _$AuthEvent {
+  const factory AuthEvent.login({
+    required AuthEntity auth,
   }) = _Login;
 }
-*/

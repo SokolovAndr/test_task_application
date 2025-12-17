@@ -5,6 +5,8 @@ import 'package:get_it/get_it.dart';
 import 'package:test_task_application/core/api/base_headers_interceptor.dart';
 import 'package:test_task_application/core/api/base_response_converter.dart';
 import 'package:test_task_application/core/api/persistent_connection.dart';
+import 'package:test_task_application/features/auth/data/dto/auth_dto.dart';
+import 'package:test_task_application/features/auth/data/dto/token_dto.dart';
 import 'package:test_task_application/features/products/data/dto/product_dto.dart';
 import 'package:test_task_application/features/products/data/dto/rating_dto.dart';
 import 'package:test_task_application/features/users/data/dto/address_dto.dart';
@@ -22,6 +24,8 @@ class ChopperClientInitializer {
       AddressDto: AddressDto.fromJson,
       ProductDto: ProductDto.fromJson,
       RatingDto: RatingDto.fromJson,
+      AuthDto: AuthDto.fromJson,
+      TokenDto: TokenDto.fromJson,
     });
     final baseUrl = dotenv.get('BASE_URL');
 
