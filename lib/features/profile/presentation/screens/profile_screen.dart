@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:test_task_application/core/presentation/widgets/app_drawer.dart';
 import 'package:test_task_application/core/presentation/widgets/content.dart';
 import 'package:test_task_application/core/presentation/widgets/fullscreen_loading_widget.dart';
+import 'package:test_task_application/core/routing/app_router.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
 import 'package:test_task_application/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:test_task_application/features/profile/presentation/widgets/profile_address_widget.dart';
@@ -22,7 +23,26 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(S.current.profile)),
+      appBar: AppBar(
+        title: Text(S.current.profile),
+        actions: [
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+            ),
+            onPressed: () {
+              context.router.replace(const AuthRoute());
+            },
+            child: Text(
+              S.current.logout,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: theme.extension<AppColors>()?.primary500,
+              ),
+            ),
+          ),
+        ],
+      ),
       drawer: AppDrawer(),
       body: BlocProvider(
         create: (context) =>
