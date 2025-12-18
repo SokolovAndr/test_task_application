@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:test_task_application/core/presentation/widgets/titled_text_widget.dart';
+import 'package:test_task_application/core/routing/app_router.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
 import 'package:test_task_application/features/products/domain/entities/product_entity.dart';
 import 'package:test_task_application/features/products/presentation/widgets/product_item_rating_widget.dart';
@@ -51,7 +53,7 @@ class ProductsListItemWidget extends StatelessWidget {
         ],
       ),
       onTap: () {
-        debugPrint('testing widget');
+        context.router.push(ProductItemRoute(productId: product.id));
       },
     );
   }

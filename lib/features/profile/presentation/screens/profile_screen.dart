@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 import 'package:test_task_application/core/presentation/widgets/app_drawer.dart';
 import 'package:test_task_application/core/presentation/widgets/content.dart';
 import 'package:test_task_application/core/presentation/widgets/fullscreen_loading_widget.dart';
-import 'package:test_task_application/core/presentation/widgets/titled_text_widget.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
 import 'package:test_task_application/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:test_task_application/features/profile/presentation/widgets/profile_address_widget.dart';
