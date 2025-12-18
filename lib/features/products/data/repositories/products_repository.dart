@@ -48,4 +48,31 @@ class ProductsRepository {
       Error.throwWithStackTrace(RequestError(S.current.unknown_error), stack);
     }
   }
+
+  Future<ProductEntity> getProductById({required int id}) async {
+    try {
+      final response = await productsService.getProductById(id: id.toString());
+      if (response.resourceError != null) {
+        throw response.resourceError!;
+      }
+      final productDto = response.body!;
+
+      return ProductEntity(
+        id: productDto.id,
+        title: productDto.title,
+        price: productDto.price,
+        description: productDto.description,
+        category: productDto.category,
+        image: productDto.image,
+        rating: RatingEntity(
+          rate: productDto.rating.rate,
+          count: productDto.rating.count,
+        ),
+      );
+    } on ResourceError catch (_) {
+      rethrow;
+    } catch (_, stack) {
+      Error.throwWithStackTrace(RequestError(S.current.unknown_error), stack);
+    }
+  }
 }

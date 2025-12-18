@@ -7,10 +7,12 @@ class TitledTextWidget extends StatelessWidget {
     super.key,
     required this.title,
     required this.label,
+    this.fullText = false,
   });
 
   final String title;
   final String? label;
+  final bool fullText;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +33,8 @@ class TitledTextWidget extends StatelessWidget {
         Container(
           padding: const EdgeInsets.only(right: 16),
           child: Text(
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
+            overflow: fullText ? null :  TextOverflow.ellipsis,
+            maxLines: fullText ? null : 1,
             label ?? '',
             style: const TextStyle(
               fontSize: 16,
