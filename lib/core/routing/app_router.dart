@@ -23,6 +23,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(path: ':productId', page: ProductItemRoute.page),
       ],
     ),
-    AutoRoute(path: '/users', page: UsersRoute.page),
+    AutoRoute(path: '/users/:id', page: UsersRoute.page),
   ];
 }

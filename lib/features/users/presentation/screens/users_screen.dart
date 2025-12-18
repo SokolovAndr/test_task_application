@@ -10,7 +10,9 @@ import 'package:test_task_application/generated/l10n.dart';
 
 @RoutePage()
 class UsersScreen extends StatelessWidget {
-  const UsersScreen({super.key});
+  const UsersScreen({super.key, @PathParam('id') required this.id});
+
+  final int id;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,10 @@ class UsersScreen extends StatelessWidget {
                     separatorBuilder: (context, index) => Divider(),
                     itemBuilder: (context, index) {
                       final user = model.users.users[index];
-                      return UsersListItemWidget(user: user);
+                      return UsersListItemWidget(
+                        user: user,
+                        isCurrentUser: id == index + 1,
+                      );
                     },
                     itemCount: model.users.totalCount,
                   ),

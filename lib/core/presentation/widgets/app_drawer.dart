@@ -60,7 +60,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 _buildMenuItem(
                   context: context,
-                  route: const UsersRoute(),
+                  route: UsersRoute(id: model.id),
                   icon: Icons.group,
                   label: S.current.users,
                 ),
