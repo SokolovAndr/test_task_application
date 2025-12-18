@@ -9,12 +9,10 @@ import 'package:test_task_application/generated/l10n.dart';
 
 class ProductsRepository {
   ProductsRepository(this.productsService);
-
-  static const int limit = 10; //TODO или 50?
-
+  
   final ProductsService productsService;
 
-  Future<ProductsListEntity> getProducts({int page = 0}) async {
+  Future<ProductsListEntity> getProducts() async {
     try {
       final response = await productsService.getProducts();
       if (response.resourceError != null) {

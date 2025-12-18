@@ -14,11 +14,9 @@ import 'package:test_task_application/generated/l10n.dart';
 class UsersRepository {
   UsersRepository(this.usersService);
 
-  static const int limit = 10; //TODO или 50?
-
   final UsersService usersService;
 
-  Future<UsersListEntity> getUsers({int page = 0}) async {
+  Future<UsersListEntity> getUsers() async {
     try {
       final response = await usersService.getUsers();
       if (response.resourceError != null) {
