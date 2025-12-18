@@ -21,10 +21,27 @@
   "retry": "Повторить",
   "firstname": "Имя",
   "lastname": "Фамилия",
+  "personal_data": "Личные данные",
   "phone": "Телефон",
   "title": "Название",
   "category": "Категория",
   "description": "Описание",
+  "address": "Адрес",
+  "city": "Город",
+  "street": "Улица",
+  "street_home": "{street}, {home}",
+  "@street_home": {
+    "placeholders": {
+      "street": {
+        "type": "String"
+      },
+      "home": {
+        "type": "String"
+      }
+    }
+  },
+  "number": "Номер",
+  "index": "Индекс",
   "validation_not_empty": "Поле не должно быть пустым",
   "stock": "Остаток {count}",
   "@stock": {
