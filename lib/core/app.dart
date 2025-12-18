@@ -57,7 +57,7 @@ class _AppState extends State<App> {
           BlocProvider(
             create: (context) => InAppNotificationBloc(GetIt.I.get()),
           ),
-          BlocProvider(create: (context) => AuthBloc(GetIt.I.get(), GetIt.I.get()),
+          BlocProvider(create: (context) => AuthBloc(GetIt.I.get(), GetIt.I.get(), GetIt.I.get()),
           ),
         ],
         child: BlocListener<InAppNotificationBloc, InAppNotificationState>(
