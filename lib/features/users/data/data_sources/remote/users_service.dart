@@ -9,4 +9,7 @@ abstract class UsersService extends ChopperService {
 
   @GET(path: 'users')
   Future<Response<List<UserDto>>> getUsers();
+
+  @GET(path: 'users/{id}')
+  Future<Response<UserDto>> getUserById({@Path() required String id});
 }
