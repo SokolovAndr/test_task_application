@@ -5,6 +5,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:test_task_application/core/presentation/widgets/content.dart';
 import 'package:test_task_application/core/presentation/widgets/default_input_decoration.dart';
 import 'package:test_task_application/core/presentation/widgets/fullscreen_loading_widget.dart';
+import 'package:test_task_application/core/presentation/widgets/reactive_password_text_field.dart';
 import 'package:test_task_application/core/presentation/widgets/scrollable_fill_screen.dart';
 import 'package:test_task_application/core/presentation/widgets/titled_field_block.dart';
 import 'package:test_task_application/core/routing/app_router.dart';
@@ -50,7 +51,10 @@ class AuthScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  SizedBox(height: 150),
+                                  SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                  ),
                                   CircleAvatar(
                                     radius: 30,
                                     backgroundColor: theme
@@ -84,9 +88,7 @@ class AuthScreen extends StatelessWidget {
                                   const SizedBox(height: 10),
                                   TitledFieldBlock(
                                     title: S.current.password,
-                                    child: ReactiveTextField(
-                                      obscureText: true,
-
+                                    child: ReactivePasswordTextField(
                                       formControl: formModel.passwordControl,
                                       decoration: DefaultInputDecoration.def,
                                     ),
@@ -110,7 +112,6 @@ class AuthScreen extends StatelessWidget {
                                                   ),
                                                 ),
                                           ),
-
                                       child: Text(S.current.login_action),
                                     ),
                                   ),
