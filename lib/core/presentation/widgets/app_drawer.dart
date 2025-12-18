@@ -21,7 +21,7 @@ class AppDrawer extends StatelessWidget {
       builder: (context, state) {
         return state.maybeMap(
           orElse: SizedBox.shrink,
-          finished: (model) => Drawer(
+          authorized: (model) => Drawer(
             child: ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[

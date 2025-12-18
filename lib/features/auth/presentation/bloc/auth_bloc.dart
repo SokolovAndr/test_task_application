@@ -30,7 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               user.username == event.auth.username &&
               user.password == event.auth.password,
         );
-        emit(_Finished(id: currentUser?.id ?? 0));
+        emit(_Authorized(id: currentUser?.id ?? 0));
       } on ResourceError catch (e) {
         emit(s);
         await inAppNotificationRepository.addError(
@@ -56,6 +56,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           ),
         );
       }
+    });
+
+    on<_Logout>((event, emit) async {
+      emit(const _Initial());
     });
   }
 

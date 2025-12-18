@@ -4,7 +4,7 @@ part of 'auth_bloc.dart';
 sealed class AuthState with _$AuthState {
   const factory AuthState.initial() = _Initial;
   const factory AuthState.loading() = _Loading;
-  const factory AuthState.finished({
+  const factory AuthState.authorized({
     required int id,
-  }) = _Finished;
+  }) = _Authorized;
 }
