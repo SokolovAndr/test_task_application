@@ -7,7 +7,6 @@ import 'package:test_task_application/core/presentation/widgets/content.dart';
 import 'package:test_task_application/core/presentation/widgets/fullscreen_loading_widget.dart';
 import 'package:test_task_application/core/routing/app_router.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
-import 'package:test_task_application/features/auth/domain/entities/auth_entity.dart';
 import 'package:test_task_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:test_task_application/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:test_task_application/features/profile/presentation/widgets/profile_address_widget.dart';
