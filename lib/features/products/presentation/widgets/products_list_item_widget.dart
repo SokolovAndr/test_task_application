@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:test_task_application/core/presentation/widgets/titled_text_widget.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
 import 'package:test_task_application/features/products/domain/entities/product_entity.dart';
+import 'package:test_task_application/features/products/presentation/widgets/product_item_rating_widget.dart';
 import 'package:test_task_application/generated/l10n.dart';
 
 class ProductsListItemWidget extends StatelessWidget {
@@ -33,6 +34,19 @@ class ProductsListItemWidget extends StatelessWidget {
           TitledTextWidget(
             title: S.current.description,
             label: product.description,
+          ),
+          SizedBox(height: 8),
+          ProductItemRatingCountWidget(
+            rate: product.rating.rate,
+            count: product.rating.count,
+          ),
+          SizedBox(height: 8),
+          Text(
+            S.current.price_usd(product.price),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.extension<AppColors>()?.base800,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),

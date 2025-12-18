@@ -64,4 +64,45 @@ class UsersRepository {
       Error.throwWithStackTrace(RequestError(S.current.unknown_error), stack);
     }
   }
+
+  Future<UserEntity> getUserById({required int id}) async {
+    try {
+      final response = await usersService.getUserById(id: id.toString());
+      if (response.resourceError != null) {
+        throw response.resourceError!;
+      }
+      final userDto = response.body!;
+
+      final userEntity = UserEntity(
+        address: userDto.address.map(
+          (address) => AddressEntity(
+            geolocation: address.geolocation.map(
+              (geolocation) => GeolocationEntity(
+                lat: geolocation.lat,
+                long: geolocation.long,
+              ),
+            ),
+            city: address.city,
+            street: address.street,
+            number: address.number,
+            zipcode: address.zipcode,
+          ),
+        ),
+        id: userDto.id,
+        email: userDto.email,
+        username: userDto.username,
+        password: userDto.password,
+        name: userDto.name.map(
+          (name) =>
+              NameEntity(firstname: name.firstname, lastname: name.lastname),
+        ),
+        phone: userDto.phone,
+      );
+      return userEntity;
+    } on ResourceError catch (_) {
+      rethrow;
+    } catch (_, stack) {
+      Error.throwWithStackTrace(RequestError(S.current.unknown_error), stack);
+    }
+  }
 }

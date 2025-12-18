@@ -36,6 +36,7 @@ dependencies:
   flutter_dotenv: ^6.0.0
   reactive_forms_generator: ^8.1.0-beta2
   collection: ^1.19.1
+  flutter_rating: ^2.0.2
 
 dev_dependencies:
   flutter_test:

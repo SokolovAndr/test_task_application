@@ -6,6 +6,7 @@ class AppColors extends ThemeExtension<AppColors> {
   const AppColors({
     required this.baseWhite,
     required this.baseGreen,
+    required this.baseGreenLight,
     required this.base0,
     required this.base10,
     required this.base100,
@@ -67,6 +68,7 @@ class AppColors extends ThemeExtension<AppColors> {
 
   final Color? baseWhite;
   final Color? baseGreen;
+  final Color? baseGreenLight;
   final Color? base0;
   final Color? base10;
   final Color? base100;
@@ -129,6 +131,7 @@ class AppColors extends ThemeExtension<AppColors> {
   AppColors copyWith({
     Color? baseWhite,
     Color? baseGreen,
+    Color? baseGreenLight,
     Color? base0,
     Color? base10,
     Color? base100,
@@ -190,6 +193,7 @@ class AppColors extends ThemeExtension<AppColors> {
     return AppColors(
       baseWhite: baseWhite ?? this.baseWhite,
       baseGreen: baseGreen ?? this.baseGreen,
+      baseGreenLight: baseGreenLight ?? this.baseGreenLight,
       base0: base0 ?? this.base0,
       base10: base10 ?? this.base10,
       base100: base100 ?? this.base100,
@@ -258,6 +262,7 @@ class AppColors extends ThemeExtension<AppColors> {
     return AppColors(
       baseWhite: Color.lerp(baseWhite, other.baseWhite, t),
       baseGreen: Color.lerp(baseGreen, other.baseGreen, t),
+      baseGreenLight: Color.lerp(baseGreenLight, other.baseGreenLight, t),
       base0: Color.lerp(base0, other.base0, t),
       base10: Color.lerp(base10, other.base10, t),
       base100: Color.lerp(base100, other.base100, t),
@@ -325,6 +330,7 @@ class AppColors extends ThemeExtension<AppColors> {
   static const light = AppColors(
     baseWhite: Colors.white,
     baseGreen: Color(0xff026548),
+    baseGreenLight: Color(0xff67a391),
     base0: Colors.white,
     base10: Color(0xffF4F5F5),
     base100: Color(0xffE4E5E7),
