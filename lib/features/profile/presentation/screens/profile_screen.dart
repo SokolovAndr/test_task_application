@@ -7,6 +7,7 @@ import 'package:test_task_application/core/presentation/widgets/content.dart';
 import 'package:test_task_application/core/presentation/widgets/fullscreen_loading_widget.dart';
 import 'package:test_task_application/core/routing/app_router.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
+import 'package:test_task_application/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:test_task_application/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:test_task_application/features/profile/presentation/widgets/profile_address_widget.dart';
 import 'package:test_task_application/features/profile/presentation/widgets/profile_personal_data_widget.dart';
@@ -22,85 +23,91 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.current.profile),
-        actions: [
-          TextButton(
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-            ),
-            onPressed: () {
-              context.router.replace(const AuthRoute());
-            },
-            child: Text(
-              S.current.logout,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: theme.extension<AppColors>()?.primary500,
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) => state.mapOrNull(
+        initial: (_) => context.router.replace(const AuthRoute()),
+      ),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(S.current.profile),
+          actions: [
+            TextButton(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16,
+                  horizontal: 20,
+                ),
+              ),
+              onPressed: () => context.read<AuthBloc>().add(AuthEvent.logout()),
+              child: Text(
+                S.current.logout,
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: theme.extension<AppColors>()?.primary500,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-      drawer: AppDrawer(),
-      body: BlocProvider(
-        create: (context) =>
-            ProfileBloc(GetIt.I.get(), GetIt.I.get(), id)
-              ..add(ProfileEvent.load(id: id)),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            BlocBuilder<ProfileBloc, ProfileState>(
-              buildWhen: (previous, current) =>
-                  current.maybeWhen(orElse: () => false, loaded: (_) => true),
-              builder: (context, state) {
-                return state.maybeMap(
-                  orElse: () => const SizedBox.shrink(),
-                  loaded: (model) => Content(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundColor: theme
-                              .extension<AppColors>()!
-                              .primary40,
-                          child: Text(
-                            model.user.initials,
-                            style: TextStyle(
-                              color: theme.extension<AppColors>()!.baseGreen,
+          ],
+        ),
+        drawer: AppDrawer(),
+        body: BlocProvider(
+          create: (context) =>
+              ProfileBloc(GetIt.I.get(), GetIt.I.get(), id)
+                ..add(ProfileEvent.load(id: id)),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              BlocBuilder<ProfileBloc, ProfileState>(
+                buildWhen: (previous, current) =>
+                    current.maybeWhen(orElse: () => false, loaded: (_) => true),
+                builder: (context, state) {
+                  return state.maybeMap(
+                    orElse: () => const SizedBox.shrink(),
+                    loaded: (model) => Content(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundColor: theme
+                                .extension<AppColors>()!
+                                .primary40,
+                            child: Text(
+                              model.user.initials,
+                              style: TextStyle(
+                                color: theme.extension<AppColors>()!.baseGreen,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 16),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ProfilePersonalDataWidget(user: model.user),
-                              SizedBox(height: 8),
-                              ProfileAddressWidget(address: model.user.address),
-                            ],
+                          const SizedBox(height: 16),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ProfilePersonalDataWidget(user: model.user),
+                                SizedBox(height: 8),
+                                ProfileAddressWidget(
+                                  address: model.user.address,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
-            ),
-            BlocBuilder<ProfileBloc, ProfileState>(
-              builder: (context, state) {
-                return state.maybeWhen(
+                  );
+                },
+              ),
+              BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) => state.maybeWhen(
                   orElse: () => const SizedBox.shrink(),
                   loading: () =>
                       const Positioned.fill(child: FullScreenLoadingWidget()),
-                );
-              },
-            ),
-          ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
