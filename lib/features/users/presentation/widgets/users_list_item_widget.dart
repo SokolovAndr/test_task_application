@@ -5,9 +5,14 @@ import 'package:test_task_application/features/users/domain/entities/user_entity
 import 'package:test_task_application/generated/l10n.dart';
 
 class UsersListItemWidget extends StatelessWidget {
-  const UsersListItemWidget({super.key, required this.user});
+  const UsersListItemWidget({
+    super.key,
+    required this.user,
+    required this.isCurrentUser,
+  });
 
   final UserEntity user;
+  final bool isCurrentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,9 @@ class UsersListItemWidget extends StatelessWidget {
         ),
       ),
       contentPadding: EdgeInsets.all(8),
-      tileColor: theme.extension<AppColors>()!.baseWhite,
+      tileColor: isCurrentUser
+          ? theme.extension<AppColors>()!.success100
+          : theme.extension<AppColors>()!.baseWhite,
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
