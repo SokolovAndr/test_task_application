@@ -5,6 +5,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:test_task_application/core/presentation/widgets/content.dart';
 import 'package:test_task_application/core/presentation/widgets/default_input_decoration.dart';
 import 'package:test_task_application/core/presentation/widgets/fullscreen_loading_widget.dart';
+import 'package:test_task_application/core/presentation/widgets/scrollable_fill_screen.dart';
 import 'package:test_task_application/core/presentation/widgets/titled_field_block.dart';
 import 'package:test_task_application/core/routing/app_router.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
@@ -22,12 +23,8 @@ class AuthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return AuthModelFormBuilder(
-      builder:
-          (
-            BuildContext context,
-            AuthModelForm formModel,
-            Widget? child,
-          ) => Stack(
+      builder: (BuildContext context, AuthModelForm formModel, Widget? child) =>
+          Stack(
             fit: StackFit.expand,
             children: [
               Scaffold(
@@ -48,72 +45,77 @@ class AuthScreen extends StatelessWidget {
                         },
                         builder: (context, state) {
                           return Content(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(height: 150),
-                                CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: theme
-                                      .extension<AppColors>()!
-                                      .baseGreen,
-                                  child: Text(
-                                    S.current.app_title_short,
-                                    style: TextStyle(
-                                      color: theme
-                                          .extension<AppColors>()!
-                                          .baseWhite,
+                            child: ScrollableFillScreen(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(height: 150),
+                                  CircleAvatar(
+                                    radius: 30,
+                                    backgroundColor: theme
+                                        .extension<AppColors>()!
+                                        .baseGreen,
+                                    child: Text(
+                                      S.current.app_title_short,
+                                      style: TextStyle(
+                                        color: theme
+                                            .extension<AppColors>()!
+                                            .baseWhite,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(height: 10),
-                                Text(
-                                  S.current.app_title_full,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                  const SizedBox(height: 10),
+                                  Text(
+                                    S.current.app_title_full,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 25),
-                                TitledFieldBlock(
-                                  title: S.current.login,
-                                  child: ReactiveTextField(
-                                    decoration: DefaultInputDecoration.def,
-                                    formControl: formModel.usernameControl,
+                                  const SizedBox(height: 25),
+                                  TitledFieldBlock(
+                                    title: S.current.login,
+                                    child: ReactiveTextField(
+                                      decoration: DefaultInputDecoration.def,
+                                      formControl: formModel.usernameControl,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(height: 10),
-                                TitledFieldBlock(
-                                  title: S.current.password,
-                                  child: ReactiveTextField(
-                                    obscureText: true,
-    
-                                    formControl: formModel.passwordControl,
-                                    decoration: DefaultInputDecoration.def,
+                                  const SizedBox(height: 10),
+                                  TitledFieldBlock(
+                                    title: S.current.password,
+                                    child: ReactiveTextField(
+                                      obscureText: true,
+
+                                      formControl: formModel.passwordControl,
+                                      decoration: DefaultInputDecoration.def,
+                                    ),
                                   ),
-                                ),
-                                const Spacer(),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        formModel.currentForm.valid
-                                        ? AppColors.light.baseGreen
-                                        : AppColors.light.success100,
-                                  ),
-                                  onPressed: () =>
-                                      formModel.validateAndSubmit(
-                                        (model) =>
-                                            context.read<AuthBloc>().add(
-                                              AuthEvent.login(
-                                                auth: _modelToEntity(model),
-                                              ),
-                                            ),
+                                  const Spacer(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 20),
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            formModel.currentForm.valid
+                                            ? AppColors.light.baseGreen
+                                            : AppColors.light.success100,
                                       ),
-    
-                                  child: Text(S.current.login_action),
-                                ),
-                              ],
+                                      onPressed: () =>
+                                          formModel.validateAndSubmit(
+                                            (model) =>
+                                                context.read<AuthBloc>().add(
+                                                  AuthEvent.login(
+                                                    auth: _modelToEntity(model),
+                                                  ),
+                                                ),
+                                          ),
+
+                                      child: Text(S.current.login_action),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -124,9 +126,8 @@ class AuthScreen extends StatelessWidget {
                 builder: (context, state) {
                   return state.maybeWhen(
                     orElse: () => const SizedBox.shrink(),
-                    loading: () => const Positioned.fill(
-                      child: FullScreenLoadingWidget(),
-                    ),
+                    loading: () =>
+                        const Positioned.fill(child: FullScreenLoadingWidget()),
                   );
                 },
               ),
