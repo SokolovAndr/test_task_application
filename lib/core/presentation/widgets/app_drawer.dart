@@ -54,6 +54,12 @@ class AppDrawer extends StatelessWidget {
                 ),
                 _buildMenuItem(
                   context: context,
+                  route: CartsRoute(id: model.id),
+                  icon: Icons.shopping_cart,
+                  label: S.current.cart,
+                ),
+                _buildMenuItem(
+                  context: context,
                   route: const ProductsRoute(),
                   icon: Icons.list_alt,
                   label: S.current.products,
