@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:test_task_application/core/presentation/widgets/app_drawer.dart';
+import 'package:test_task_application/core/presentation/widgets/content.dart';
 import 'package:test_task_application/core/presentation/widgets/fullscreen_loading_widget.dart';
 import 'package:test_task_application/features/carts/presentation/bloc/carts_list_bloc.dart';
 import 'package:test_task_application/features/carts/presentation/widgets/carts_list_item_widget.dart';
@@ -32,14 +33,20 @@ class CartsScreen extends StatelessWidget {
               builder: (context, state) {
                 return state.maybeMap(
                   orElse: () => const SizedBox.shrink(),
-                  loaded: (model) => ListView.separated(
-                    separatorBuilder: (context, index) => Divider(),
-                    itemBuilder: (context, index) {
-                      final cart = model.carts.carts[index];
-                      return CartsListItemWidget(cart: cart);
-                    },
-                    itemCount: model.carts.quantity,
-                  ),
+                  loaded: (model) {
+                    return model.carts.carts.isEmpty
+                        ? Content(
+                            child: Center(child: Text(S.current.nothing_found)),
+                          )
+                        : ListView.separated(
+                            separatorBuilder: (context, index) => Divider(),
+                            itemBuilder: (context, index) {
+                              final cart = model.carts.carts[index];
+                              return CartsListItemWidget(cart: cart);
+                            },
+                            itemCount: model.carts.quantity,
+                          );
+                  },
                 );
               },
             ),

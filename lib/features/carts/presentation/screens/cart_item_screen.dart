@@ -21,7 +21,7 @@ class CartItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(S.current.product)),
+      appBar: AppBar(title: Text(S.current.cart)),
       body: Content(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
