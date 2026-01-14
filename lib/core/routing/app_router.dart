@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:test_task_application/features/auth/presentation/screens/auth_screen.dart';
 import 'package:test_task_application/features/carts/presentation/screens/cart_item_screen.dart';
 import 'package:test_task_application/features/carts/presentation/screens/carts_screen.dart';
+import 'package:test_task_application/features/carts/presentation/screens/carts_wrapper_screen.dart';
 import 'package:test_task_application/features/products/presentation/screens/product_item_screen.dart';
 import 'package:test_task_application/features/products/presentation/screens/products_screen.dart';
 import 'package:test_task_application/features/products/presentation/screens/products_wrapper_screen.dart';
@@ -26,7 +27,13 @@ class AppRouter extends RootStackRouter {
       ],
     ),
     AutoRoute(path: '/users/:id', page: UsersRoute.page),
-    AutoRoute(path: '/carts/:id', page: CartsRoute.page),
-    AutoRoute(path: '/cartItem', page: CartItemRoute.page),
+    AutoRoute(
+      path: '/carts',
+      page: CartsWrapperRoute.page,
+      children: [
+        AutoRoute(initial: true, page: CartsRoute.page, path: ':id'),
+        AutoRoute(path: 'cartItem', page: CartItemRoute.page),
+      ],
+    ),
   ];
 }
