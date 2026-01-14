@@ -3,6 +3,8 @@ import 'package:get_it/get_it.dart';
 import 'package:test_task_application/core/data/repositories/in_app_notification_repository.dart';
 import 'package:test_task_application/features/auth/data/data_sources/remote/auth_service.dart';
 import 'package:test_task_application/features/auth/data/repositories/auth_repository.dart';
+import 'package:test_task_application/features/carts/data/data_sources/remote/carts_service.dart';
+import 'package:test_task_application/features/carts/data/repositories/carts_repositories.dart';
 import 'package:test_task_application/features/products/data/data_sources/remote/products_service.dart';
 import 'package:test_task_application/features/products/data/repositories/products_repository.dart';
 import 'package:test_task_application/features/users/data/data_sources/remote/users_service.dart';
@@ -22,5 +24,6 @@ class SingltonRegisterInitializer {
     sl.registerSingleton(
       ProductsRepository(ProductsService.create(chopperClient)),
     );
+    sl.registerSingleton(CartsRepository(CartsService.create(chopperClient)));
   }
 }

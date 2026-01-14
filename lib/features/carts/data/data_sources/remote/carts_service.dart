@@ -8,5 +8,5 @@ abstract class CartsService extends ChopperService {
   static CartsService create([ChopperClient? client]) => _$CartsService(client);
 
   @GET(path: 'carts/user/{id}')
-  Future<Response<CartDto>> getUserCartById({@Path() required String id});
+  Future<Response<List<CartDto>>> getUserCartsById({@Path() required String id});
 }
