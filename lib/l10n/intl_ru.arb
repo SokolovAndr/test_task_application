@@ -62,5 +62,15 @@
   },
   "cart": "Корзина",
   "date": "Дата",
+  "date_format": "{date_format}",
+  "@date_format": {
+    "placeholders": {
+      "date_format": {
+        "type": "DateTime",
+        "format": "dd.MM.yyyy",
+        "isCustomDateFormat": "true"
+      }
+    }
+  },
   "products_in_cart": "Товаров в корзине"
 }

@@ -20,16 +20,19 @@ class CartsListItemWidget extends StatelessWidget {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TitledTextWidget(title: S.current.date, label: cart.date.toString()),
+          TitledTextWidget(
+            title: S.current.date,
+            label: S.current.date_format(cart.date),
+          ),
           SizedBox(height: 8),
           TitledTextWidget(
             title: S.current.products_in_cart,
-            label: cart.count
+            label: cart.count,
           ),
         ],
       ),
       onTap: () {
-         context.router.push(CartItemRoute());
+        context.router.push(CartItemRoute());
       },
     );
   }
