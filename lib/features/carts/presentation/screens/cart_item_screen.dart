@@ -7,7 +7,10 @@ import 'package:test_task_application/core/presentation/widgets/fullscreen_loadi
 import 'package:test_task_application/core/presentation/widgets/titled_text_widget.dart';
 import 'package:test_task_application/core/utils/themes/app_colors.dart';
 import 'package:test_task_application/features/carts/presentation/bloc/cart_item_bloc.dart';
-
+import 'package:test_task_application/features/carts/presentation/widgets/cart_product_count_widget.dart';
+import 'package:test_task_application/features/carts/presentation/widgets/cart_product_price_widget.dart';
+import 'package:test_task_application/features/carts/presentation/widgets/cart_product_total_price_widget.dart';
+import 'package:test_task_application/features/products/domain/entities/product_entity.dart';
 import 'package:test_task_application/generated/l10n.dart';
 
 @RoutePage()
@@ -20,44 +23,106 @@ class CartItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(S.current.cart)),
+      appBar: AppBar(title: Text(S.current.cart_detail)),
       body: BlocProvider(
         create: (context) =>
-            CartItemBloc(GetIt.I.get(), GetIt.I.get(), cartId)
+            CartItemBloc(cartId, GetIt.I.get(), GetIt.I.get(), GetIt.I.get())
               ..add(CartItemEvent.load(cartId: cartId)),
         child: Stack(
           fit: StackFit.expand,
           children: [
             BlocBuilder<CartItemBloc, CartItemState>(
-              buildWhen: (previous, current) =>
-                  current.maybeWhen(orElse: () => false, loaded: (_) => true),
+              buildWhen: (previous, current) => current.maybeWhen(
+                orElse: () => false,
+                loaded: (_, _) => true,
+              ),
               builder: (context, state) {
                 return state.maybeMap(
                   orElse: () => const SizedBox.shrink(),
                   loaded: (model) => Content(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TitledTextWidget(
-                                title: S.current.title,
-                                label: model.cart.id.toString(),
-                                fullText: true,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TitledTextWidget(
+                              title: S.current.date,
+                              label: S.current.date_format(model.cart.date),
+                            ),
+                            SizedBox(height: 8),
+                            Text(S.current.cart_detail),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                border: BoxBorder.all(
+                                  color: theme.extension<AppColors>()!.base100!,
+                                ),
                               ),
-                              SizedBox(height: 8),
-                              TitledTextWidget(
-                                title: S.current.category,
-                                label: model.cart.date.toString(),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: ListView.separated(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  separatorBuilder: (context, index) =>
+                                      Divider(),
+                                  shrinkWrap: true,
+                                  itemCount: model.cart.products.length,
+                                  itemBuilder: (context, index) {
+                                    final product =
+                                        model.detailedProducts[index];
+                                    final count =
+                                        model.cart.products[index].quantity;
+                                    return ListTile(
+                                      onTap: () {
+                                        debugPrint(product.id.toString());
+                                      },
+                                      leading: CircleAvatar(
+                                        radius: 30,
+                                        backgroundColor: theme
+                                            .extension<AppColors>()!
+                                            .primary40,
+                                        child: Text(
+                                          product.initials,
+                                          style: TextStyle(
+                                            color: theme
+                                                .extension<AppColors>()!
+                                                .baseGreen,
+                                          ),
+                                        ),
+                                      ),
+                                      contentPadding: EdgeInsets.all(8),
+                                      tileColor: theme
+                                          .extension<AppColors>()!
+                                          .baseWhite,
+                                      title: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          TitledTextWidget(
+                                            title: S.current.title,
+                                            label: product.title,
+                                            fullText: true,
+                                          ),
+                                          SizedBox(height: 8),
+                                          CartProductPriceWidget(
+                                            price: product.price,
+                                          ),
+                                          SizedBox(height: 8),
+                                          CartProductCountWidget(count: count),
+                                          SizedBox(height: 8),
+                                          CartProductTotalPriceWidget(
+                                            totalPrice: count * product.price,
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
-                              SizedBox(height: 8),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 );

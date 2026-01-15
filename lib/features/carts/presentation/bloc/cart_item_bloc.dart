@@ -7,6 +7,8 @@ import 'package:test_task_application/core/data/repositories/in_app_notification
 import 'package:test_task_application/core/domain/entities/error_entity.dart';
 import 'package:test_task_application/features/carts/data/repositories/carts_repositories.dart';
 import 'package:test_task_application/features/carts/domain/entities/cart_entity.dart';
+import 'package:test_task_application/features/products/data/repositories/products_repository.dart';
+import 'package:test_task_application/features/products/domain/entities/product_entity.dart';
 
 part 'cart_item_bloc.freezed.dart';
 part 'cart_item_event.dart';
@@ -14,9 +16,10 @@ part 'cart_item_state.dart';
 
 class CartItemBloc extends Bloc<CartItemEvent, CartItemState> {
   CartItemBloc(
-    this.cartsRepository,
-    this.inAppNotificationRepository,
     this.cartId,
+    this.cartsRepository,
+    this.productsRepository,
+    this.inAppNotificationRepository,
   ) : super(const _Initial()) {
     on<_Load>((event, emit) async {
       emit(const _Loading());
@@ -26,8 +29,18 @@ class CartItemBloc extends Bloc<CartItemEvent, CartItemState> {
 
   Future<void> _load(CartItemEvent event, Emitter<CartItemState> emit) async {
     try {
-      final result = await cartsRepository.getCartById(cartId: cartId);
-      emit(_Loaded(cart: result));
+      final cart = await cartsRepository.getCartById(cartId: cartId);
+
+      final detailedProducts = <ProductEntity>[];
+
+      for (final product in cart.products) {
+        final result = await productsRepository.getProductById(
+          id: product.productId,
+        );
+        detailedProducts.add(result);
+      }
+
+      emit(_Loaded(cart: cart, detailedProducts: detailedProducts));
     } on ResourceError catch (e) {
       await inAppNotificationRepository.addError(
         ErrorEntity(
@@ -55,5 +68,6 @@ class CartItemBloc extends Bloc<CartItemEvent, CartItemState> {
 
   final int cartId;
   final CartsRepository cartsRepository;
+  final ProductsRepository productsRepository;
   final InAppNotificationRepository inAppNotificationRepository;
 }
