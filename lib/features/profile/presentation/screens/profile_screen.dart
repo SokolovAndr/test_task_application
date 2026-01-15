@@ -16,9 +16,9 @@ import 'package:test_task_application/generated/l10n.dart';
 
 @RoutePage()
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key, @PathParam('id') required this.id});
+  const ProfileScreen({super.key, @PathParam('userId') required this.userId});
 
-  final int id;
+  final int userId;
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +52,8 @@ class ProfileScreen extends StatelessWidget {
         drawer: AppDrawer(),
         body: BlocProvider(
           create: (context) =>
-              ProfileBloc(GetIt.I.get(), GetIt.I.get(), id)
-                ..add(ProfileEvent.load(id: id)),
+              ProfileBloc(GetIt.I.get(), GetIt.I.get(), userId)
+                ..add(ProfileEvent.load(id: userId)),
           child: Stack(
             fit: StackFit.expand,
             children: [

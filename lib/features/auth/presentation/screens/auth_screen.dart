@@ -40,7 +40,7 @@ class AuthScreen extends StatelessWidget {
                           state.maybeWhen(
                             orElse: () {},
                             authorized: (id) {
-                              context.router.replace(ProfileRoute(id: id));
+                              context.router.replace(ProfileRoute(userId: id));
                             },
                           );
                         },

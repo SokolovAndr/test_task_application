@@ -11,9 +11,11 @@ class CartsRepository {
 
   final CartsService cartsService;
 
-  Future<CartsListEntity> getUserCartsById({required int id}) async {
+  Future<CartsListEntity> getUserCartsById({required int userId}) async {
     try {
-      final response = await cartsService.getUserCartsById(id: id.toString());
+      final response = await cartsService.getUserCartsById(
+        userId: userId.toString(),
+      );
       if (response.resourceError != null) {
         throw response.resourceError!;
       }
@@ -39,6 +41,36 @@ class CartsRepository {
       final carts = CartsListEntity(carts: result, quantity: result.length);
 
       return carts;
+    } on ResourceError catch (_) {
+      rethrow;
+    } catch (_, stack) {
+      Error.throwWithStackTrace(RequestError(S.current.unknown_error), stack);
+    }
+  }
+
+  Future<CartEntity> getCartById({required int cartId}) async {
+    try {
+      final response = await cartsService.getCartById(
+        cartId: cartId.toString(),
+      );
+      if (response.resourceError != null) {
+        throw response.resourceError!;
+      }
+      final cartDto = response.body!;
+      final result = CartEntity(
+        id: cartDto.id,
+        userId: cartDto.userId,
+        date: cartDto.date,
+        products: cartDto.products
+            .map(
+              (e) => CartProductEntity(
+                productId: e.productId,
+                quantity: e.quantity,
+              ),
+            )
+            .toList(),
+      );
+      return result;
     } on ResourceError catch (_) {
       rethrow;
     } catch (_, stack) {

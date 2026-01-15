@@ -48,13 +48,13 @@ class AppDrawer extends StatelessWidget {
                 ),
                 _buildMenuItem(
                   context: context,
-                  route: ProfileRoute(id: model.id),
+                  route: ProfileRoute(userId: model.id),
                   icon: Icons.person,
                   label: S.current.profile,
                 ),
                 _buildMenuItem(
                   context: context,
-                  route: CartsRoute(id: model.id),
+                  route: CartsRoute(userId: model.id),
                   icon: Icons.shopping_cart,
                   label: S.current.cart,
                 ),
@@ -66,7 +66,7 @@ class AppDrawer extends StatelessWidget {
                 ),
                 _buildMenuItem(
                   context: context,
-                  route: UsersRoute(id: model.id),
+                  route: UsersRoute(userId: model.id),
                   icon: Icons.group,
                   label: S.current.users,
                 ),

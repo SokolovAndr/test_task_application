@@ -11,9 +11,9 @@ import 'package:test_task_application/generated/l10n.dart';
 
 @RoutePage()
 class CartsScreen extends StatelessWidget {
-  const CartsScreen({super.key, @PathParam('id') required this.id});
+  const CartsScreen({super.key, @PathParam('userId') required this.userId});
 
-  final int id;
+  final int userId;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class CartsScreen extends StatelessWidget {
       drawer: AppDrawer(),
       body: BlocProvider(
         create: (context) =>
-            CartsListBloc(GetIt.I.get(), GetIt.I.get(), id)
+            CartsListBloc(GetIt.I.get(), GetIt.I.get(), userId)
               ..add(const CartsListEvent.load()),
         child: Stack(
           fit: StackFit.expand,

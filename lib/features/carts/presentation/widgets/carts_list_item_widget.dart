@@ -32,7 +32,7 @@ class CartsListItemWidget extends StatelessWidget {
         ],
       ),
       onTap: () {
-        context.router.push(CartItemRoute());
+        context.router.push(CartItemRoute(cartId: cart.id));
       },
     );
   }

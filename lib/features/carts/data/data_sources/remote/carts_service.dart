@@ -7,6 +7,11 @@ part 'carts_service.chopper.dart';
 abstract class CartsService extends ChopperService {
   static CartsService create([ChopperClient? client]) => _$CartsService(client);
 
-  @GET(path: 'carts/user/{id}')
-  Future<Response<List<CartDto>>> getUserCartsById({@Path() required String id});
+  @GET(path: 'carts/user/{userId}')
+  Future<Response<List<CartDto>>> getUserCartsById({
+    @Path() required String userId,
+  });
+
+  @GET(path: 'carts/{cartId}')
+  Future<Response<CartDto>> getCartById({@Path() required String cartId});
 }

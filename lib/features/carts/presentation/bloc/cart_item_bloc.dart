@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:test_task_application/core/data/data_sources/dto/request_error.dart';
@@ -7,25 +6,28 @@ import 'package:test_task_application/core/data/data_sources/dto/resource_error.
 import 'package:test_task_application/core/data/repositories/in_app_notification_repository.dart';
 import 'package:test_task_application/core/domain/entities/error_entity.dart';
 import 'package:test_task_application/features/carts/data/repositories/carts_repositories.dart';
-import 'package:test_task_application/features/carts/domain/entities/carts_list_entity.dart';
+import 'package:test_task_application/features/carts/domain/entities/cart_entity.dart';
 
-part 'carts_list_bloc.freezed.dart';
-part 'carts_list_event.dart';
-part 'carts_list_state.dart';
+part 'cart_item_bloc.freezed.dart';
+part 'cart_item_event.dart';
+part 'cart_item_state.dart';
 
-class CartsListBloc extends Bloc<CartsListEvent, CartsListState> {
-  CartsListBloc(this.cartsRepository, this.inAppNotificationRepository, this.userId)
-    : super(const _Initial()) {
+class CartItemBloc extends Bloc<CartItemEvent, CartItemState> {
+  CartItemBloc(
+    this.cartsRepository,
+    this.inAppNotificationRepository,
+    this.cartId,
+  ) : super(const _Initial()) {
     on<_Load>((event, emit) async {
       emit(const _Loading());
       await _load(event, emit);
     });
   }
 
-  Future<void> _load(CartsListEvent event, Emitter<CartsListState> emit) async {
+  Future<void> _load(CartItemEvent event, Emitter<CartItemState> emit) async {
     try {
-      final result = await cartsRepository.getUserCartsById(userId: userId);
-      emit(_Loaded(carts: result));
+      final result = await cartsRepository.getCartById(cartId: cartId);
+      emit(_Loaded(cart: result));
     } on ResourceError catch (e) {
       await inAppNotificationRepository.addError(
         ErrorEntity(
@@ -51,7 +53,7 @@ class CartsListBloc extends Bloc<CartsListEvent, CartsListState> {
     }
   }
 
-  final int userId;
+  final int cartId;
   final CartsRepository cartsRepository;
   final InAppNotificationRepository inAppNotificationRepository;
 }

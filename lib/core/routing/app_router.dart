@@ -15,8 +15,8 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
     AutoRoute(path: '/', page: AuthRoute.page, initial: true),
-    AutoRoute(path: '/profile/:id', page: ProfileRoute.page),
-    AutoRoute(path: '/users/:id', page: UsersRoute.page),
+    AutoRoute(path: '/profile/:userId', page: ProfileRoute.page),
+    AutoRoute(path: '/users/:userId', page: UsersRoute.page),
     AutoRoute(path: '/products', page: ProductsRoute.page),
     AutoRoute(path: '/products/:productId', page: ProductItemRoute.page),
     AutoRoute(path: '/carts', page: CartsRoute.page),
