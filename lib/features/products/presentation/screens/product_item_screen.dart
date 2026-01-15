@@ -30,7 +30,7 @@ class ProductItemScreen extends StatelessWidget {
       body: BlocProvider(
         create: (context) =>
             ProductItemBloc(GetIt.I.get(), GetIt.I.get(), productId)
-              ..add(ProductItemEvent.load(id: productId)),
+              ..add(ProductItemEvent.load()),
         child: Stack(
           fit: StackFit.expand,
           children: [

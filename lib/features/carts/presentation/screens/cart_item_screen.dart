@@ -27,7 +27,7 @@ class CartItemScreen extends StatelessWidget {
       body: BlocProvider(
         create: (context) =>
             CartItemBloc(cartId, GetIt.I.get(), GetIt.I.get(), GetIt.I.get())
-              ..add(CartItemEvent.load(cartId: cartId)),
+              ..add(CartItemEvent.load()),
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -98,11 +98,7 @@ class CartItemScreen extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          TitledTextWidget(
-                                            title: S.current.title,
-                                            label: product.title,
-                                            fullText: true,
-                                          ),
+                                          Text(product.title),
                                           SizedBox(height: 8),
                                           CartProductPriceWidget(
                                             price: product.price,
